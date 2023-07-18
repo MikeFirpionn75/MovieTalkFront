@@ -1,11 +1,18 @@
 import React, { useState, useEffect } from "react";
 import { NavLink, Outlet, useParams } from "react-router-dom";
 import { MMovieForm } from "../../components/MMovieForm/MMovieForm";
+import { MTopic } from "../../components/MTopic/MTopic";
 import "./MMovie.css";
+
 
 interface Ratings {
   Source: string;
   Value: string;
+}
+export interface DataApi {
+  Title: string;
+  Subject: string;
+  Type: string;
 }
 
 interface MovieInfo {
@@ -42,11 +49,26 @@ const MMovie = () => {
         console.error(error);
       });
   };
+  const [ourData, setOurData] = useState<DataApi[]>([]);
+
+  const fetchData = async () => {
+    try {
+      const response = await fetch(api);
+      const data = await response.json();
+        setOurData(data)
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, []);
 
   useEffect(() => {
     getInfosMovie();
   }, []);
-
+  const api = `http://localhost:3000/topic/${id}`
   return (
     <div>
       {movieResult ? (
@@ -126,7 +148,8 @@ const MMovie = () => {
               </div>
             </div>
             <div className="div-post">
-              <MMovieForm></MMovieForm>
+              <MMovieForm fetchData ={fetchData}></MMovieForm>
+              <MTopic ourData ={ourData}></MTopic>
             </div>
           </div>
         </>
