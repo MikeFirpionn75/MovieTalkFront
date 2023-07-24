@@ -2,30 +2,24 @@ import { useState } from "react";
 import { DataApi } from "../../pages/MMovie/MMovie";
 import "./MTopic.css";
 import { MComments } from "../MComments/MComments";
+import { MTopicCard } from "./MTopicCard";
+import { TTopic } from "../../type";
 
-interface MTopicProps{
-  ourData: DataApi[]
+interface MTopicProps {
+  ourData: TTopic[];
 }
 
-export const MTopic = (props:MTopicProps) => {
- const {ourData} = props
-console.log(ourData)
+export const MTopic = (props: MTopicProps) => {
+  const { ourData } = props;
+  console.log(ourData);
+  // console.log(ourData[0].image, 'testgenial')
   return (
     <div className="topicGlobal">
-      <div className ="topic">
-      {ourData.map((elem, index) => (
-        <div className ="oneTopic" key={index}>
-          <h3>{elem.title}</h3>
-          <p>{elem.subject}</p>
-          <p>{elem.type}</p>
-          <MComments topicID = {elem.id}></MComments>
-        </div>
-        
-      ))}
+      <div className="topic">
+        {ourData.map((elem: TTopic, index) => (
+          <MTopicCard topic={elem} key={index}></MTopicCard>
+        ))}
       </div>
-      
     </div>
   );
 };
-
-

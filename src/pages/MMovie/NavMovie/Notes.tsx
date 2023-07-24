@@ -1,7 +1,12 @@
-import React from "react";
+import { useLocation } from "react-router-dom";
 
 const Notes = () => {
-  return <div>Notes</div>;
+  const location = useLocation();
+  const { from } = location.state;
+
+  console.log(from);
+
+  return <div>{from}</div>;
 };
 
 export default Notes;
